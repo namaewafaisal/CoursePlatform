@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses;
+package com.vdart.vdartcourses.collections;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;

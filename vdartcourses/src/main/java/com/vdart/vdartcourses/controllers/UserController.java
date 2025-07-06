@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vdart.vdartcourses.User;
-import com.vdart.vdartcourses.UserService;
+import com.vdart.vdartcourses.collections.User;
+import com.vdart.vdartcourses.services.UserService;
 
 
 

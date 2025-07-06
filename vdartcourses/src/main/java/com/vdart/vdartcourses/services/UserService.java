@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses;
+package com.vdart.vdartcourses.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.vdart.vdartcourses.collections.User;
+import com.vdart.vdartcourses.repositories.UserRepo;
 
 @Service
 public class UserService {

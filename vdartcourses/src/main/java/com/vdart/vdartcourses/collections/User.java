@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses;
+package com.vdart.vdartcourses.collections;
 
 import java.util.List;
 

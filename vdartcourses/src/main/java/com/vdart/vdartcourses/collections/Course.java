@@ -1,8 +1,31 @@
-package com.vdart.vdartcourses;
+package com.vdart.vdartcourses.collections;
+
+import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class SubTopic {
+@Document(collection = "courses")
+public class Course {
+
+    @Id
+	private ObjectId id;
+    
+	private String title;
+	private String description;
+    private String domain;
+	private String instructor;
+    private String thumbnailUrl;
+    private List<SubTopic> subtopics;
+    private ObjectId finalQuizId;
+    private int noOfEnrolledStudents;
+    private List<String> tags;
+
+	
+}
+
+class SubTopic {
 
     private String title;
     private String type; // e.g., "video", "article or text"
