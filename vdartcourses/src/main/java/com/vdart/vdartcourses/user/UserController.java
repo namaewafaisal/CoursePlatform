@@ -1,6 +1,7 @@
 package com.vdart.vdartcourses.user;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,12 @@ public class UserController {
         return userService.getUserById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     
     }
+    @GetMapping("/users/search")
+    public List<User> getUserByName(@RequestParam String username) {
+        return userService.getUserByName(username);
+    }
+    
+
     @GetMapping("/users/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
@@ -81,4 +88,6 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    
 }
