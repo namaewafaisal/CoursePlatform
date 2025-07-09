@@ -58,4 +58,5 @@ public class CourseController {
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
     }
 
+    
 }

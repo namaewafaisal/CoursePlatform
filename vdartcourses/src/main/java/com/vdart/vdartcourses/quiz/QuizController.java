@@ -5,6 +5,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class QuizController {
     }
 
     @GetMapping("/{id}")
-    public Quiz getQuizById(ObjectId id) {
+    public Quiz getQuizById(@PathVariable ObjectId id) {
         return quizService.getQuizById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + id));
     }
@@ -38,7 +39,8 @@ public class QuizController {
     public Quiz saveQuiz(@RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
     }
-    public void deleteQuizById(ObjectId id) {
+    @GetMapping("/delete/{id}")
+    public void deleteQuizById(@PathVariable ObjectId id) {
         quizService.deleteQuizById(id);
     }
     
