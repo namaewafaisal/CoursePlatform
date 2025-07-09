@@ -22,4 +22,10 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
+    public void deleteUser(ObjectId id) {
+        userRepo.deleteById(id);
+    }
+    public User updateUser(User user) {
+        return userRepo.save(user);
+    }
 }

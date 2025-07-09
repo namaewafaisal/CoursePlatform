@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,27 +26,59 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public List<User> getUser() {
-        return userService.getAllUsers();
-    }
+    // For Typical Users
 
-    @PostMapping("/test")
-    public String postMethodName(@RequestParam String username, @RequestParam String email) {
-        //TODO: process POST request
-        
-        System.out.println("Received : " + username + ", " + email);
-        return "Success";
+    @PostMapping("/auth/signup")
+    public String postMethodName(@RequestParam String username, @RequestParam String email, @RequestParam String password, @RequestParam String domain) {
+
+        return "Received : " + username + ", " + email  + ", " + domain;
+
     }
     
+    @PostMapping("/auth/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        System.out.println("Login attempt with username: " + username + " and password: " + password);
+        // Here you would typically check the credentials against a database
+        // For now, we just return a success message
+        return "Login successful for user: " + username;
+    }
 
-    @PostMapping("/register")
+    @PostMapping("/auth/signup/post")
     public User postMethodName(@RequestBody User user) {
+        
         return userService.saveUser(user);
     }
-    @GetMapping("/{id}")
+
+    // For Admin Users
+
+    @GetMapping("/users/{id}")
     public User getUserById(@PathVariable ObjectId id) {
         return userService.getUserById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     
+    }
+    @GetMapping("/users/all")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+    @PutMapping("/users/update/{id}")
+    public User saveUser(@PathVariable ObjectId id, @RequestBody User user) {
+        User userdata = userService.getUserById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        userdata.setUsername(user.getUsername());
+        userdata.setDomain(user.getDomain());
+        userdata.setEmail(user.getEmail());
+        userdata.setPassword(user.getPassword());
+        userdata.setRole(user.getRole());
+        userdata.setEnrolledCourses(user.getEnrolledCourses());
+        // Update other fields as necessary
+        // userdata.setId(id); // This line is not needed as id is already set in the path variable
+        // userdata.setDomain(domain);
+        return userService.updateUser(userdata);
+    }
+    
+    @DeleteMapping("/users/delete/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable ObjectId id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
