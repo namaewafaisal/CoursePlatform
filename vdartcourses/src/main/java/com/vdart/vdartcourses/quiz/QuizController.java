@@ -38,6 +38,8 @@ public class QuizController {
     public Quiz saveQuiz(@RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
     }
+
+    
     public void deleteQuizById(ObjectId id) {
         quizService.deleteQuizById(id);
     }

@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
+
 
 
 
@@ -22,7 +24,7 @@ public class CertificateTemplateController {
     @Autowired
     private CertificateTemplateService certificateTemplateService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<CertificateTemplate> getCertificateTemplate() {
         // Logic to retrieve the certificate template by courseId
         return certificateTemplateService.getAllCertificateTemplates();
@@ -38,11 +40,21 @@ public class CertificateTemplateController {
         .orElseThrow(() -> new ResourceNotFoundException("Certificate not found with id: " + id));
     }
 
-    // @PostMapping("/post")
-    // public CertificateTemplate postMethodName(@RequestBody String entity) {
-    //     //TODO: process POST request
-
-    //     return certificateTemplateService.saveCertificateTemplate(entity);
-    // }
+    @PostMapping("/post")
+    public CertificateTemplate addCertificateTemplate(@RequestBody CertificateTemplate entity) {
+        return certificateTemplateService.saveCertificateTemplate(entity);
+    }
     
+    @PutMapping("update/{id}")
+    public CertificateTemplate updateCertificateTemplate(@PathVariable ObjectId id, @RequestBody CertificateTemplate certificateTemplate) {
+        
+        CertificateTemplate certificateData = certificateTemplateService.getCertificateTemplateById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id)); 
+        certificateData.setFields(certificateTemplate.getFields());
+        certificateData.setCourseId(certificateTemplate.getCourseId());
+        certificateData.setDomain(certificateTemplate.getDomain());
+        certificateData.setTemplateUrl(certificateTemplate.getTemplateUrl());
+        return certificateData;
+    }
+
 }
