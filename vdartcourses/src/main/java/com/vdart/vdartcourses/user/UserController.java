@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses.controllers;
+package com.vdart.vdartcourses.user;
 
 import java.util.List;
 
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
-import com.vdart.vdartcourses.collections.User;
-import com.vdart.vdartcourses.services.UserService;
 
 
 

@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses.controllers;
+package com.vdart.vdartcourses.certificate;
 
 import java.util.List;
 
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
-import com.vdart.vdartcourses.collections.CertificateTemplate;
-import com.vdart.vdartcourses.services.CertificateTemplateService;
 
 
 

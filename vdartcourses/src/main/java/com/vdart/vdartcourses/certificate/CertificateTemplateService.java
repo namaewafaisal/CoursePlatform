@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses.services;
+package com.vdart.vdartcourses.certificate;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,6 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.vdart.vdartcourses.collections.CertificateTemplate;
-import com.vdart.vdartcourses.repositories.CertificateTemplateRepo;
 
 @Service
 public class CertificateTemplateService {

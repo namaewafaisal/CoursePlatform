@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses.collections;
+package com.vdart.vdartcourses.certificate;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;

@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses.controllers;
+package com.vdart.vdartcourses.course;
 
 import java.util.List;
 
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
-import com.vdart.vdartcourses.collections.Course;
-import com.vdart.vdartcourses.services.CourseService;
 
 
 
