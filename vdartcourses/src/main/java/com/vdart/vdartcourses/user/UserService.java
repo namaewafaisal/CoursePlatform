@@ -22,6 +22,9 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
+    public List<User> getUserByName(String username){
+        return userRepo.findByUsernameContainingIgnoreCase(username);
+    }
     public void deleteUser(ObjectId id) {
         userRepo.deleteById(id);
     }
