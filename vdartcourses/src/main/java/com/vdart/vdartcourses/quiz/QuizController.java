@@ -49,11 +49,7 @@ public class QuizController {
     public void deleteQuizById(@PathVariable ObjectId id) {
         quizService.deleteQuizById(id);
     }
-    @PostMapping("/update/{id}")
-    public Quiz updateQuizById(@PathVariable ObjectId id, @RequestBody Quiz quiz) {
-        return quizService.updateQuizById(id, quiz)
-                .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + id));
-    }
+    
     
         
 }
