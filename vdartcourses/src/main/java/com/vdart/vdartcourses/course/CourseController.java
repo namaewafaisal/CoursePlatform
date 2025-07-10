@@ -24,6 +24,13 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    // Get all courses
+    // Get course by id
+    // Add a new course
+    // Delete a course by id
+    // Search courses by keyword
+    // Update a course by id
+
     @GetMapping("/all")
     public List<Course> getAllCourses() {
         return courseService.getAllCourses();

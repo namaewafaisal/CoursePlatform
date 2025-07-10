@@ -7,6 +7,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vdart.vdartcourses.ResourceNotFoundException;
+
 @Service
 public class UserService {
 
@@ -28,7 +30,15 @@ public class UserService {
     public void deleteUser(ObjectId id) {
         userRepo.deleteById(id);
     }
-    public User updateUser(User user) {
-        return userRepo.save(user);
+    public User updateUser(ObjectId id,User user) {
+        User existingUser = userRepo.findById(id).orElseThrow(() -> 
+            new ResourceNotFoundException("User not found with id: " + id));
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setDomain(user.getDomain());
+        existingUser.setRole(user.getRole());
+        existingUser.setEnrolledCourses(null);
+        return userRepo.save(existingUser);
     }
 }

@@ -24,6 +24,12 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
+    // Get all quizzes
+    // Get quiz by id
+    // Add a new quiz
+    // Delete a quiz by id
+    // Update a quiz by id
+
     @GetMapping
     public List<Quiz> getAllQuizzes() {
         return quizService.getAllQuizzes();
@@ -42,6 +48,11 @@ public class QuizController {
     @GetMapping("/delete/{id}")
     public void deleteQuizById(@PathVariable ObjectId id) {
         quizService.deleteQuizById(id);
+    }
+    @PostMapping("/update/{id}")
+    public Quiz updateQuizById(@PathVariable ObjectId id, @RequestBody Quiz quiz) {
+        return quizService.updateQuizById(id, quiz)
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + id));
     }
     
         

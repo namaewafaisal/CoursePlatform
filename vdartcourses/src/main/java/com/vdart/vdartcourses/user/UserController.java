@@ -28,6 +28,8 @@ public class UserController {
     private UserService userService;
 
     // For Typical Users
+    // Sign up
+    // login
 
     @PostMapping("/auth/signup")
     public String postMethodName(@RequestParam String username, @RequestParam String email, @RequestParam String password, @RequestParam String domain) {
@@ -51,6 +53,11 @@ public class UserController {
     }
 
     // For Admin Users
+    // Get all users
+    // Get user by id
+    // Get user by name
+    // Update user
+    // Delete user
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable ObjectId id) {
@@ -69,18 +76,7 @@ public class UserController {
     }
     @PutMapping("/users/update/{id}")
     public User saveUser(@PathVariable ObjectId id, @RequestBody User user) {
-        User userdata = userService.getUserById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        userdata.setUsername(user.getUsername());
-        userdata.setDomain(user.getDomain());
-        userdata.setEmail(user.getEmail());
-        userdata.setPassword(user.getPassword());
-        userdata.setRole(user.getRole());
-        userdata.setEnrolledCourses(user.getEnrolledCourses());
-        // Update other fields as necessary
-        // userdata.setId(id); // This line is not needed as id is already set in the path variable
-        // userdata.setDomain(domain);
-        return userService.updateUser(userdata);
+        return userService.updateUser(id, user);
     }
     
     @DeleteMapping("/users/delete/{id}")
