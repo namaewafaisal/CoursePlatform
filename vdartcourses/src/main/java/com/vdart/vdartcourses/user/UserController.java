@@ -1,7 +1,8 @@
 package com.vdart.vdartcourses.user;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +72,12 @@ public class UserController {
     
 
     @GetMapping("/users/all")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public Map<String, List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        Map<String, List<User>> response = new HashMap<>();
+        response.put("Users", users);
+        return response;
+        
     }
     @PutMapping("/users/update/{id}")
     public User saveUser(@PathVariable ObjectId id, @RequestBody User user) {

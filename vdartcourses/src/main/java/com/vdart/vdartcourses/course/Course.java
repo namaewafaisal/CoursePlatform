@@ -18,6 +18,7 @@ public class Course {
     @Id
 	private ObjectId id;
     
+    private String courseId;
 	private String title;
 	private String description;
     private String domain;

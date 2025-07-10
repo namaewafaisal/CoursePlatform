@@ -24,6 +24,9 @@ public class CourseService {
     public Optional<Course> getCourseById(ObjectId id) {
         return courseRepo.findById(id);
     }
+    public Optional<Course> getCourseByCourseId(String courseId){
+        return courseRepo.findByCourseId(courseId);
+    }
     // Method to delete a course by ID
     public void deleteCourseById(ObjectId id) {
         courseRepo.deleteById(id);
@@ -39,18 +42,20 @@ public class CourseService {
         Optional<Course> existingCourse = courseRepo.findById(id);
         if (existingCourse.isPresent()) {
             Course updatedCourse = existingCourse.get();
-            updatedCourse.setTitle(course.getTitle());
-            updatedCourse.setDescription(course.getDescription());
-            updatedCourse.setInstructor(course.getInstructor());
-            updatedCourse.setDomain(course.getDomain());
-            updatedCourse.setThumbnailUrl(course.getThumbnailUrl());
-            updatedCourse.setSubtopics(course.getSubtopics());
-            updatedCourse.setFinalQuizId(course.getFinalQuizId());
-            updatedCourse.setNoOfEnrolledStudents(course.getNoOfEnrolledStudents());
-            updatedCourse.setTags(course.getTags());
-            // Update other fields as necessary
+            if (course.getTitle() != null) updatedCourse.setTitle(course.getTitle());
+            if (course.getDescription() != null) updatedCourse.setDescription(course.getDescription());
+            if (course.getInstructor() != null) updatedCourse.setInstructor(course.getInstructor());
+            if (course.getDomain() != null) updatedCourse.setDomain(course.getDomain());
+            if (course.getThumbnailUrl() != null) updatedCourse.setThumbnailUrl(course.getThumbnailUrl());
+            if (course.getSubtopics() != null) updatedCourse.setSubtopics(course.getSubtopics());
+            if (course.getFinalQuizId() != null) updatedCourse.setFinalQuizId(course.getFinalQuizId());
+            if (course.getTags() != null) updatedCourse.setTags(course.getTags());
+            // Update other fields as necessary, only if not null
             return Optional.of(courseRepo.save(updatedCourse));
         }
         return Optional.empty();
+    }
+    public Optional<Course> getCourseByTitle(String title) {
+        return courseRepo.findByTitle(title);
     }
 }

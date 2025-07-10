@@ -1,18 +1,21 @@
 package com.vdart.vdartcourses.course;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -64,6 +67,30 @@ public class CourseController {
         return courseService.updateCourse(id, course)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
     }
+    // View a subtopic of a course
 
+    @GetMapping("/{courseId}/{subtopic}")
+    public ResponseEntity<String> watchASubTopic(@PathVariable String courseId, @PathVariable String subtopic) {
+        Course  course = courseService.getCourseByCourseId(courseId).orElseThrow(()-> new ResourceNotFoundException("Course not found " + courseId));
+        Optional<SubTopic> found = course.getSubtopics().stream().filter(s -> s.getTitle().equalsIgnoreCase(subtopic)).findFirst();
+        if (found.isEmpty()){
+            throw new ResourceNotFoundException("Subtopic not found");
+        }
+        return ResponseEntity.ok(found.get().getVideoUrl());
+    }
     
+    @PutMapping("update/{courseTitle}")
+    public Course updateCourseDetails(@PathVariable("courseTitle") String courseTitle, @RequestBody Course course) {
+        Course oldcourse = courseService.getCourseByTitle(courseTitle)
+            .orElseThrow(() -> new ResourceNotFoundException("Not found course"));
+        // Update only existing fields
+        oldcourse.setTitle(course.getTitle());
+        oldcourse.setCourseId(course.getCourseId());
+        oldcourse.setDescription(course.getDescription());
+        oldcourse.setDomain(course.getDomain());
+        oldcourse.setInstructor(course.getInstructor());
+        oldcourse.setSubtopics(course.getSubtopics());
+        // Save updated course
+        return courseService.saveCourse(oldcourse);
+    }
 }
