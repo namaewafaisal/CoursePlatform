@@ -93,4 +93,13 @@ public class CourseController {
         // Save updated course
         return courseService.saveCourse(oldcourse);
     }
+    @GetMapping("/print-objectids")
+    public ResponseEntity<String> printAllCourseObjectIds() {
+        List<Course> courses = courseService.getAllCourses();
+        System.out.println("Course ObjectIds:");
+        for (Course course : courses) {
+            System.out.println(course.getId()); // Assumes getId() returns ObjectId
+        }
+        return ResponseEntity.ok("Printed all course ObjectIds to terminal.");
+}
 }
