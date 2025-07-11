@@ -24,6 +24,9 @@ public class CertificateTemplate {
     private CertificateFields fields; // Fields to be filled in the certificate
     private String domain; // Domain for which the certificate is applicable
 
+    public String getId() {
+        return id != null ? id.toHexString() : null;
+    }
 
 }
 
@@ -37,7 +40,7 @@ class CertificateFields {
     private FieldPosition date;
     private FieldPosition userId;
 
-
+    
     
 }
 @Data

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.question.Question;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +49,10 @@ public class QuizController {
     @GetMapping("/delete/{id}")
     public void deleteQuizById(@PathVariable ObjectId id) {
         quizService.deleteQuizById(id);
+    }
+    @PostMapping("{quizid}/question/add")
+    public Question addQuestionToQuiz(@PathVariable ObjectId quizid, @RequestBody Question question) {
+        return quizService.addQuestionToQuiz(quizid, question);
     }
     
     

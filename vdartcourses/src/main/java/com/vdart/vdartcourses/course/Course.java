@@ -29,7 +29,9 @@ public class Course {
     private int noOfEnrolledStudents;
     private List<String> tags;
 
-	
+	public String getId() {
+        return id!= null ? id.toHexString() : null;
+    }
 }
 @Data
 @NoArgsConstructor
@@ -41,5 +43,8 @@ class SubTopic {
     private String content; // text content
     private String videoUrl; // URL for video 
     private ObjectId quizId; // Reference to a quiz if applicable
+    public String getQuizId() {
+        return quizId != null ? quizId.toHexString() : null;
+    }
    
 }

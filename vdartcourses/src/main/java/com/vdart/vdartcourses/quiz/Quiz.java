@@ -20,6 +20,10 @@ public class Quiz {
 
     @Id
     private ObjectId id;
-    private List<ObjectId> questionIds; // List of question IDs
+    private List<Question> questions; // List of questions
 
+    public String getId() {
+        return id != null ? id.toHexString() : null;
+    }
+    
 }

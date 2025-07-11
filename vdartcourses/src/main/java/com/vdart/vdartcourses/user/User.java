@@ -27,5 +27,7 @@ public class User {
     private String domain;
     private List<String> enrolledCourses;
    
-
+    public String getId() {
+        return id != null ? id.toHexString() : null;
+    }   
 }
