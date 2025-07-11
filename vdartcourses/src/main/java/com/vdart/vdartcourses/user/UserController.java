@@ -72,11 +72,8 @@ public class UserController {
     
 
     @GetMapping("/users/all")
-    public Map<String, List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        Map<String, List<User>> response = new HashMap<>();
-        response.put("Users", users);
-        return response;
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
         
     }
     @PutMapping("/users/update/{id}")
