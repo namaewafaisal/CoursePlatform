@@ -11,7 +11,9 @@ public interface CourseRepo extends MongoRepository<Course, ObjectId>{
     // Additional query methods can be defined here if needed
     List<Course> findByTitleContainingIgnoreCase(String keyword);
 
-    Optional<Course> findByCourseId(String courseId);
+    Optional<Course> findById(String courseId);
 
     Optional<Course> findByTitle(String title);
+
+    Optional<Course> findByCourseKey(String courseKey);
 }

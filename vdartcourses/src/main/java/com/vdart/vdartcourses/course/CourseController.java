@@ -69,9 +69,9 @@ public class CourseController {
     }
     // View a subtopic of a course
 
-    @GetMapping("/{courseId}/{subtopic}")
-    public ResponseEntity<String> watchASubTopic(@PathVariable String courseId, @PathVariable String subtopic) {
-        Course  course = courseService.getCourseByCourseId(courseId).orElseThrow(()-> new ResourceNotFoundException("Course not found " + courseId));
+    @GetMapping("/{courseKey}/{subtopic}")
+    public ResponseEntity<String> watchASubTopic(@PathVariable String courseKey, @PathVariable String subtopic) {
+        Course  course = courseService.getCourseByCourseKey(courseKey).orElseThrow(()-> new ResourceNotFoundException("Course not found " + courseKey));
         Optional<SubTopic> found = course.getSubtopics().stream().filter(s -> s.getTitle().equalsIgnoreCase(subtopic)).findFirst();
         if (found.isEmpty()){
             throw new ResourceNotFoundException("Subtopic not found");
@@ -85,7 +85,7 @@ public class CourseController {
             .orElseThrow(() -> new ResourceNotFoundException("Not found course"));
         // Update only existing fields
         oldcourse.setTitle(course.getTitle());
-        oldcourse.setCourseId(course.getCourseId());
+        oldcourse.setCourseKey(course.getCourseKey());
         oldcourse.setDescription(course.getDescription());
         oldcourse.setDomain(course.getDomain());
         oldcourse.setInstructor(course.getInstructor());

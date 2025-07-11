@@ -24,8 +24,8 @@ public class CourseService {
     public Optional<Course> getCourseById(ObjectId id) {
         return courseRepo.findById(id);
     }
-    public Optional<Course> getCourseByCourseId(String courseId){
-        return courseRepo.findByCourseId(courseId);
+    public Optional<Course> getCourseByCourseKey(String courseKey){
+        return courseRepo.findByCourseKey(courseKey);
     }
     // Method to delete a course by ID
     public void deleteCourseById(ObjectId id) {

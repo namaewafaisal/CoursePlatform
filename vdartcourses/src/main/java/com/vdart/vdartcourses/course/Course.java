@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -18,8 +19,10 @@ public class Course {
     @Id
 	private ObjectId id;
     
-    private String courseId;
-	private String title;
+    @Indexed(unique = true)
+    private String courseKey; // Unique identifier for the course, can be a slug or unique string
+	
+    private String title;
 	private String description;
     private String domain;
     private String instructor;
