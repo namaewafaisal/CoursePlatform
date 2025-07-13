@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
@@ -49,15 +50,24 @@ public class CourseController {
     public Course saveCourse(@RequestBody Course course) {
         return courseService.saveCourse(course);
     }
-    @GetMapping("/delete/{id}")
-    public void deleteCourseById(@PathVariable ObjectId id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCourseById(@PathVariable ObjectId id) {
+        if (!courseService.getCourseById(id).isPresent()) {
+            throw new ResourceNotFoundException("Course not found with id: " + id);
+        }
+        // Check if the course exists before attempting to delete
         courseService.deleteCourseById(id);
-        // You can return a response entity if needed
+        return ResponseEntity.ok("Course deleted successfully");
     }
     
     @GetMapping("/search/{keyword}")
     public List<Course> searchCourses(@PathVariable String keyword) {
         return courseService.searchCourses(keyword);
+    }
+
+    @GetMapping("/coursekey/{courseKey}")
+    public Optional<Course> getCourseByCourseKey(@PathVariable String courseKey) {
+        return courseService.getCourseByCourseKey(courseKey);
     }
 
     // Additional methods for updating courses, etc. can be added here
@@ -78,28 +88,21 @@ public class CourseController {
         }
         return ResponseEntity.ok(found.get().getVideoUrl());
     }
-    
-    @PutMapping("update/{courseTitle}")
-    public Course updateCourseDetails(@PathVariable("courseTitle") String courseTitle, @RequestBody Course course) {
-        Course oldcourse = courseService.getCourseByTitle(courseTitle)
+
+    @PutMapping("/update/{courseKey}")
+    public Course updateCourseDetails(@PathVariable("courseKey") String courseKey, @RequestBody Course course) {
+        Course oldcourse = courseService.getCourseByCourseKey(courseKey)
             .orElseThrow(() -> new ResourceNotFoundException("Not found course"));
         // Update only existing fields
-        oldcourse.setTitle(course.getTitle());
-        oldcourse.setCourseKey(course.getCourseKey());
-        oldcourse.setDescription(course.getDescription());
-        oldcourse.setDomain(course.getDomain());
-        oldcourse.setInstructor(course.getInstructor());
-        oldcourse.setSubtopics(course.getSubtopics());
+        if(course.getTitle()!= null) oldcourse.setTitle(course.getTitle());
+        if(course.getCourseKey()!= null) oldcourse.setCourseKey(course.getCourseKey());
+        if(course.getDescription()!= null) oldcourse.setDescription(course.getDescription());
+        if(course.getDomain()!= null) oldcourse.setDomain(course.getDomain());
+        if(course.getInstructor()!= null) oldcourse.setInstructor(course.getInstructor());
+        if(course.getSubtopics()!= null) oldcourse.setSubtopics(course.getSubtopics());
+        if(course.getThumbnailUrl()!= null) oldcourse.setThumbnailUrl(course.getThumbnailUrl());
         // Save updated course
         return courseService.saveCourse(oldcourse);
     }
-    @GetMapping("/print-objectids")
-    public ResponseEntity<String> printAllCourseObjectIds() {
-        List<Course> courses = courseService.getAllCourses();
-        System.out.println("Course ObjectIds:");
-        for (Course course : courses) {
-            System.out.println(course.getId()); // Assumes getId() returns ObjectId
-        }
-        return ResponseEntity.ok("Printed all course ObjectIds to terminal.");
-}
+
 }

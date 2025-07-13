@@ -27,6 +27,7 @@
 - `GET /delete/{id}` – Delete course
 - `GET /search/{keyword}` – Search courses
 - `PUT /{id}` – Update course (body: Course JSON)
+- `GET /coursekey/{courseKey}` - Search a course using courseKey
 - `GET /{coursekey}/{subtopic}` – Get subtopic video URL Coursekey-oop, subtopic inheritance
 - `PUT /update/{courseTitle}` – Update course by title (body: Course JSON)
 

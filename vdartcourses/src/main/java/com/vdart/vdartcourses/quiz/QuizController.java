@@ -5,10 +5,11 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,9 +48,10 @@ public class QuizController {
     public Quiz saveQuiz(@RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
     }
-    @GetMapping("/delete/{id}")
-    public void deleteQuizById(@PathVariable ObjectId id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteQuizById(@PathVariable ObjectId id) {
         quizService.deleteQuizById(id);
+        return ResponseEntity.ok("Quiz deleted successfully");
     }
     @PostMapping("/{quizid}/question/add")
     public Question addQuestionToQuiz(@PathVariable ObjectId quizid, @RequestBody Question question) {
