@@ -33,12 +33,11 @@ public class UserService {
     public User updateUser(ObjectId id,User user) {
         User existingUser = userRepo.findById(id).orElseThrow(() -> 
             new ResourceNotFoundException("User not found with id: " + id));
-        existingUser.setUsername(user.getUsername());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setDomain(user.getDomain());
-        existingUser.setRole(user.getRole());
-        existingUser.setEnrolledCourses(null);
+        if(user.getUsername() != null) existingUser.setUsername(user.getUsername());
+        if(user.getEmail() != null) existingUser.setEmail(user.getEmail());
+        if(user.getPassword() != null) existingUser.setPassword(user.getPassword());
+        if(user.getDomain() != null) existingUser.setDomain(user.getDomain());
+        if(user.getRole() != null) existingUser.setRole(user.getRole());
         return userRepo.save(existingUser);
     }
 }

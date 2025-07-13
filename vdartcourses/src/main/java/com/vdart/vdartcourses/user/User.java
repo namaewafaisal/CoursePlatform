@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,6 @@ public class User {
     private String password;
     private String role; // e.g., "student", "instructor", "admin"
     private String domain;
-    private List<String> enrolledCourses;
    
     public String getId() {
         return id != null ? id.toHexString() : null;
