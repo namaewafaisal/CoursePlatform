@@ -18,4 +18,10 @@ public class SubtopicService {
     public List<Subtopic> getSubtopicsByCourseId(String courseId) {
         return subtopicRepo.findByCourseId(courseId);
     }
+    public List<Subtopic> getAllSubtopics() {
+        return subtopicRepo.findAll();
+    }
+    public void deleteById(ObjectId id) {
+        subtopicRepo.deleteById(id);
+    }
 }
