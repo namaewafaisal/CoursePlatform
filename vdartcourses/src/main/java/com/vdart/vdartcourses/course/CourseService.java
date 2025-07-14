@@ -44,7 +44,7 @@ public class CourseService {
     }
 
     // Method to get subtopics of a course
-    public List<Subtopic> getSubtopicsByCourseId(ObjectId courseId) {
+    public List<Subtopic> getSubtopicsByCourseId(String courseId) {
         List<Subtopic> subtopics = subtopicRepo.findByCourseId(courseId);
         if (subtopics.isEmpty()) {
             throw new ResourceNotFoundException("No subtopics found for course id: " + courseId);

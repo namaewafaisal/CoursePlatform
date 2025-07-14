@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
 import com.vdart.vdartcourses.subtopic.Subtopic;
+import com.vdart.vdartcourses.subtopic.SubtopicService;
 
 
 
@@ -28,6 +29,8 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private SubtopicService subtopicService;
 
     // Get all courses
     // Get course by id
@@ -72,8 +75,8 @@ public class CourseController {
     }
     
     @GetMapping("/{courseId}/subtopics")
-    public List<Subtopic> getSubtopicsByCourseId(@PathVariable ObjectId courseId) {
-        return courseService.getSubtopicsByCourseId(courseId);
+    public List<Subtopic> getSubtopicsByCourseId(@PathVariable String courseId) {
+        return subtopicService.getSubtopicsByCourseId(courseId);
     }
 
     // Additional methods for updating courses, etc. can be added here
@@ -83,7 +86,7 @@ public class CourseController {
     public ResponseEntity<String> watchASubTopic(@PathVariable String courseKey, @PathVariable String subtopic) {
     Course course = courseService.getCourseByCourseKey(courseKey)
             .orElseThrow(() -> new ResourceNotFoundException("Course not found with key: " + courseKey));
-        List<Subtopic> subtopics = courseService.getSubtopicsByCourseId(new ObjectId(course.getId()));
+        List<Subtopic> subtopics = courseService.getSubtopicsByCourseId(course.getId());
         for (Subtopic sub : subtopics) {
             if (sub.getTitle().equalsIgnoreCase(subtopic)) {
                 String videoUrl = sub.getVideoUrl();
@@ -107,6 +110,10 @@ public class CourseController {
         if(course.getThumbnailUrl()!= null) oldcourse.setThumbnailUrl(course.getThumbnailUrl());
         // Save updated course
         return courseService.saveCourse(oldcourse);
+    }
+    @PostMapping("/{id}/addsubtopic")
+    public Subtopic addSubtopicToCourse(@PathVariable ObjectId id, @RequestBody Subtopic subtopic) {
+        return subtopicService.saveSubtopic(subtopic, id);
     }
 
 }
