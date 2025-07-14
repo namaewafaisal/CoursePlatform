@@ -44,6 +44,9 @@
 - `POST /post` – Add template (body: CertificateTemplate JSON)
 - `PUT /update/{id}` – Update template (body: CertificateTemplate JSON)
 
+### Enrollment APIs (`/api/enrollments`)
+- `GET /{userId}/courses` - List all the courses enrolled by the user
+- `POST /{userId}/{courseId}/enroll` - Enroll the course of courseId
 ---
 
 _See backend code for request/response details._

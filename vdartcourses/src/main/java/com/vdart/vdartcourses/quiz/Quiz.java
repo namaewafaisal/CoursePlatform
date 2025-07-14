@@ -20,10 +20,13 @@ public class Quiz {
 
     @Id
     private ObjectId id;
-    private List<Question> questions; // List of questions
+
+    private ObjectId courseId;
+    private ObjectId subtopicId;
 
     public String getId() {
         return id != null ? id.toHexString() : null;
     }
+
     
 }

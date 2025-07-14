@@ -27,27 +27,10 @@ public class Course {
     private String domain;
     private String instructor;
     private String thumbnailUrl;
-    private List<SubTopic> subtopics;
-    private ObjectId finalQuizId;
     private int noOfEnrolledStudents;
     private List<String> tags;
-
+    private ObjectId finalQuizId; // Reference to the final quiz for the course
 	public String getId() {
         return id!= null ? id.toHexString() : null;
     }
-}
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class SubTopic {
-
-    private String title;
-    private String type; // e.g., "video", "article or text"
-    private String content; // text content
-    private String videoUrl; // URL for video 
-    private ObjectId quizId; // Reference to a quiz if applicable
-    public String getQuizId() {
-        return quizId != null ? quizId.toHexString() : null;
-    }
-   
 }
