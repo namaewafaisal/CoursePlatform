@@ -7,11 +7,17 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.subtopic.Subtopic;
+import com.vdart.vdartcourses.subtopic.SubtopicRepo;
+
 @Service
 public class CourseService {
 
     @Autowired
     private CourseRepo courseRepo;
+    @Autowired
+    private SubtopicRepo subtopicRepo;
 
     // Method to save a course
     public Course saveCourse(Course course) {
@@ -37,6 +43,15 @@ public class CourseService {
         return courseRepo.findByTitleContainingIgnoreCase(keyword);
     }
 
+    // Method to get subtopics of a course
+    public List<Subtopic> getSubtopicsByCourseId(ObjectId courseId) {
+        List<Subtopic> subtopics = subtopicRepo.findByCourseId(courseId);
+        if (subtopics.isEmpty()) {
+            throw new ResourceNotFoundException("No subtopics found for course id: " + courseId);
+        }
+        return subtopics;
+    }
+
     // Method to update a course
     public Optional<Course> updateCourse(ObjectId id, Course course) {
         Optional<Course> existingCourse = courseRepo.findById(id);
@@ -47,7 +62,6 @@ public class CourseService {
             if (course.getInstructor() != null) updatedCourse.setInstructor(course.getInstructor());
             if (course.getDomain() != null) updatedCourse.setDomain(course.getDomain());
             if (course.getThumbnailUrl() != null) updatedCourse.setThumbnailUrl(course.getThumbnailUrl());
-            if (course.getSubtopics() != null) updatedCourse.setSubtopics(course.getSubtopics());
             if (course.getFinalQuizId() != null) updatedCourse.setFinalQuizId(course.getFinalQuizId());
             if (course.getTags() != null) updatedCourse.setTags(course.getTags());
             // Update other fields as necessary, only if not null

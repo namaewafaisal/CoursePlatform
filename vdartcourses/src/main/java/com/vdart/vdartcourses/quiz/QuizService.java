@@ -35,9 +35,12 @@ public class QuizService {
     public List<Quiz> getAllQuizzes() {
         return quizRepo.findAll();
     }
-    public void addQuestionToQuiz(ObjectId quizId, Question question) {
+    public Question addQuestionToQuiz(ObjectId quizId, Question question) {
+        Quiz quiz = quizRepo.findById(quizId)
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + quizId));
         question.setQuizId(quizId);
         questionRepo.save(question);
+        return question;
     }
     public Optional<Quiz> attendQuiz(ObjectId courseId) {
         Course course = courseService.getCourseById(courseId)
