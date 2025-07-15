@@ -8,20 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
-import com.vdart.vdartcourses.course.Course;
 import com.vdart.vdartcourses.course.CourseService;
 import com.vdart.vdartcourses.question.Question;
-import com.vdart.vdartcourses.question.QuestionRepo;
+import com.vdart.vdartcourses.question.QuestionService;
 
 @Service
 public class QuizService {
 
     @Autowired
     private QuizRepo quizRepo;
-    @Autowired
-    private QuestionRepo questionRepo;
+    
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private QuestionService questionService;
 
     public Quiz saveQuiz(Quiz quiz) {
         return quizRepo.save(quiz);
@@ -39,27 +40,15 @@ public class QuizService {
         Quiz quiz = quizRepo.findById(quizId)
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + quizId));
         question.setQuizId(quizId);
-        questionRepo.save(question);
+        questionService.saveQuestion(question);
         return question;
     }
-    public Optional<Quiz> attendQuiz(ObjectId courseId) {
-        Course course = courseService.getCourseById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + courseId));
-        return quizRepo.findById(course.getFinalQuizId());
-        //         .map(Quiz::getQuestions)
-        //         .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + course.getFinalQuizId()));
-        // return questions;
+    public List<Question> attendQuiz(ObjectId courseId) {
+        Quiz quiz = quizRepo.findByCourseId(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz not found for course id: " + courseId));
+        return questionService.getQuestionsByQuizId(quiz.getId());
+
     }
-    // public Quiz updateQuiz(ObjectId quiz, Quiz updatedQuiz) {
-    //     Quiz existingQuiz = quizRepo.findById(quiz)
-    //             .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + quiz));
-    //     if (updatedQuiz.() != null) {
-    //         existingQuiz.setTitle(updatedQuiz.getTitle());
-    //     }
-    //     existingQuiz.setDescription(updatedQuiz.getDescription());
-    //     existingQuiz.setQuestions(updatedQuiz.getQuestions());
-    //     return quizRepo.save(existingQuiz);
-    // }
    
 
 }

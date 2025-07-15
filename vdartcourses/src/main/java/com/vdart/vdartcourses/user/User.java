@@ -25,6 +25,7 @@ public class User {
     @Indexed(unique = true)
     private String username;
     
+    @Indexed(unique = true)
     private String email;
     private String password;
     private String role; // e.g., "student", "instructor", "admin"

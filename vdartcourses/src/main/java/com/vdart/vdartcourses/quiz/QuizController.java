@@ -44,7 +44,7 @@ public class QuizController {
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + id));
     }
 
-    @PostMapping("/post")
+    @PostMapping("/course/{courseId}/")
     public Quiz saveQuiz(@RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
     }
@@ -60,7 +60,7 @@ public class QuizController {
     
     // Attend Quiz
     @GetMapping("/{courseId}/quiz/attend")
-    public Optional<Quiz> attendQuiz(@PathVariable ObjectId courseId) {
+    public List<Question> attendQuiz(@PathVariable ObjectId courseId) {
         return quizService.attendQuiz(courseId);
     }
 

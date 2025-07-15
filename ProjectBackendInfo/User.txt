@@ -1,0 +1,47 @@
+This file is has every detail about the user in the backend.
+User collection has these fields
+
+    Datatype    varaibleName    Type
+    ObjectId    id              Unique - generated at each moment by mongodb
+    String      username        Unique - Given by user
+    String      email           Unique - Given by user
+    String      password        Hashed - Used to login
+    String      role            Not null - Admin, Subadmins, Faculty, Employee
+    String      domain          Any Domain in a company if exists - IT, Marketing etc
+     
+Use By Roles
+    Admin - Can do literally anything in the webapp. Only one Admin exists
+    Can [Upload,Delete,Update,View] all the [Courses, Quizzes, Questions, CertificateTemplates]
+    Can [Update User info {domain,role}, Delete User]
+    Can't [Add a user[subadmin, Faculty, Employee] cause email and password are needed, change the username, email, password of a user]
+
+    Subadmins - They are appointed by Admin to control the data on their behalf
+    There can be multiple Subadmins appointed only by the Admin.
+    Can [Upload,Delete,Update,View] all the [Courses, Quizzes, Questions, CertificateTemplates]
+    Can [Update User info {domain,role to (Employee, Faculty)}, Delete User]
+    Can't [Add a user[subadmin, Faculty, Employee] cause email and password are needed, change the username, email, password of a user]
+
+    Faculty - They are the Faculty in the company who uploads courses for their employees.Each Faculty belong to a domain
+    Can [Upload a course for their specific domain, Delete, update, any of their course, view the no of enrollments etc]
+    Can [Enroll a course of another domain (maybe)]
+    Can also [Upload or make a course for domain other than theirs]
+    Can upload courses that are common to all of the domains( Like an course for freshers about the company)
+
+    Employee - They are the people for whom the courses are made to learn
+    Can [Enroll any of the course in their domain and courses that are common for all domain, also some courses can be available for multiple domain]
+    Can [Complete the course and get certified if the course had certification]
+
+Users that are not a part of company anymore will be removed from the database and cannot access the app.
+Users must use the email given to the company which is associated with the domain in the company database.
+users whose data is removed from the company database or marked as not an employee anymore will be removed from the app database.
+
+Register
+    User must give their email given to the company when hired, username for them which should be unique, passwords atleast 8 characters.
+    The email will be checked with the company database to know if the email is of an employee, and only if that is true he will be able to register.
+    Initially role is given as employee and can be promoted to any other roles later by the admin and subadmins.
+    domain is got from the company database and gets autofilled later.
+    Passwords are gone through a specific algorithm for hashing and hashed value is stored.
+Login 
+    User must enter the email or username and password.
+    the email or username is checked in the database if it exists and if so then given password is hashed then checked with the database.
+    After login the dashboard is shown where the courses that are in progress are shown.

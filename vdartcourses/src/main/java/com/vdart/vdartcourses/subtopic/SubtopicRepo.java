@@ -14,7 +14,4 @@ public interface SubtopicRepo extends MongoRepository<Subtopic, ObjectId> {
     // Method to find subtopics by title containing a keyword
     List<Subtopic> findByTitleContainingIgnoreCase(String keyword);
     
-    // Method to delete subtopics by ID
-    void deleteById(ObjectId id);
-
 }
