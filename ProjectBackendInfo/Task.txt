@@ -1,0 +1,18 @@
+Tasks yet to be completed
+1. App adapting for Role of the user
+2. user login and signup
+3. user based frontend like dashboard, my courses etc
+4. user only access the domain
+5. Uploading a course thumbnail and video for subtopics
+6. Certificate templates
+7. cerificate generator formating the username in the Certificate
+8. course progress
+9. subtopic progress
+10. access next subtopic only after completing the current one
+11 quiz for the subtopics
+12 max playback speed for video is 2x
+13 cant go forward in the video
+14 quiz will be at the end of the course or subtopic only after finishing the subtopic
+15 quiz having a passsmark and need to get more that that to get certified
+16. if failed in the quiz of subtopics then they should be rewatched again to move one
+17. if failed in the final quiz retry after a week no need to rewatch the course all over again
