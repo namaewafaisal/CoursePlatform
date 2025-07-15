@@ -19,7 +19,7 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @GetMapping("/quiz/{quizId}")
+    @GetMapping("/quizid/{quizId}")
     public List<Question> getQuestionsByQuizId(@PathVariable ObjectId quizId) {
         return questionService.getQuestionsByQuizId(quizId);
     }

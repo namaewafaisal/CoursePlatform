@@ -20,18 +20,18 @@ public class SubtopicController {
     private SubtopicService subtopicService;
 
     // Add a new subtopic to a course
-    @PostMapping("/{courseId}/add")
+    @PostMapping("/courseid/{courseId}/add")
     public Subtopic addSubtopic(@PathVariable ObjectId courseId, @RequestBody Subtopic subtopic) {
         return subtopicService.saveSubtopic(subtopic, courseId);
     }
 
     // Get all subtopics for a specific course
-    @GetMapping("/{courseId}/all")
+    @GetMapping("/courseid/{courseId}/all")
     public List<Subtopic> getSubtopicsByCourseId(@PathVariable String courseId) {
         return subtopicService.getSubtopicsByCourseId(courseId);
     }
     // Delete a subtopic by ID
-    @DeleteMapping("/delete/{id}")  
+    @DeleteMapping("/subtopicid/{id}/delete")
     public ResponseEntity<String> deleteSubtopicById(@PathVariable ObjectId id) {
         subtopicService.deleteById(id);
         return ResponseEntity.ok("Subtopic deleted successfully");

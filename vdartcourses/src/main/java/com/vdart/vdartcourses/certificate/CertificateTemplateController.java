@@ -18,7 +18,7 @@ import com.vdart.vdartcourses.ResourceNotFoundException;
 
 
 @RestController
-@RequestMapping("/api/certificate-templates")
+@RequestMapping("/api/certificates")
 public class CertificateTemplateController {
 
     @Autowired

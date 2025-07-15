@@ -20,12 +20,12 @@ public class EnrollmentController {
     @Autowired
     private EnrollmentService enrollmentService;
 
-    @GetMapping("/{userId}/courses")
+    @GetMapping("/userid/{userId}/course/all")
     public List<Enrollment> getUserCourses(@PathVariable ObjectId userId) {
         return enrollmentService.getUserCourses(userId);
     }
 
-    @PostMapping("/{userId}/{courseId}/enroll")
+    @PostMapping("/userid/{userId}/courseid/{courseId}/enrollment/add")
     public String enrollUserInCourse(@PathVariable ObjectId userId, @PathVariable ObjectId courseId, @RequestBody Enrollment enrollment) {
         enrollmentService.enrollUserInCourse(userId, courseId, enrollment);
         return "User enrolled successfully in course with id: " + courseId;

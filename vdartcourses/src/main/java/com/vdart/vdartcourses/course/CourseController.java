@@ -46,7 +46,7 @@ public class CourseController {
         return courseService.getAllCourses();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/courseid/{id}")
     public Course getCourseById(@PathVariable ObjectId id) {
         return courseService.getCourseById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
@@ -64,7 +64,7 @@ public class CourseController {
         quizService.saveQuizForCourse(course.getId());
         return course;
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/courseid/{id}/delete")
     public ResponseEntity<String> deleteCourseById(@PathVariable ObjectId id) {
         if (!courseService.getCourseById(id).isPresent()) {
             throw new ResourceNotFoundException("Course not found with id: " + id);
@@ -74,7 +74,7 @@ public class CourseController {
         return ResponseEntity.ok("Course deleted successfully");
     }
     
-    @GetMapping("/search/{keyword}")
+    @GetMapping("/search/coursetitlekeyword/{keyword}")
     public List<Course> searchCourses(@PathVariable String keyword) {
         return courseService.searchCourses(keyword);
     }
@@ -83,8 +83,8 @@ public class CourseController {
     public Optional<Course> getCourseByCourseKey(@PathVariable String courseKey) {
         return courseService.getCourseByCourseKey(courseKey);
     }
-    
-    @GetMapping("/{courseId}/subtopics")
+
+    @GetMapping("/courseid/{courseId}/subtopic/all")
     public List<Subtopic> getSubtopicsByCourseId(@PathVariable String courseId) {
         return subtopicService.getSubtopicsByCourseId(courseId);
     }
@@ -92,7 +92,7 @@ public class CourseController {
     // Additional methods for updating courses, etc. can be added here
       // View a subtopic of a course
 
-    @GetMapping("/{courseKey}/{subtopic}")
+    @GetMapping("/coursekey/{courseKey}/subtopic/{subtopic}")
     public ResponseEntity<String> watchASubTopic(@PathVariable String courseKey, @PathVariable String subtopic) {
     Course course = courseService.getCourseByCourseKey(courseKey)
             .orElseThrow(() -> new ResourceNotFoundException("Course not found with key: " + courseKey));
@@ -107,7 +107,7 @@ public class CourseController {
     }
 
 
-    @PutMapping("/update/{courseKey}")
+    @PutMapping("/coursekey/{courseKey}/update")
     public Course updateCourseDetails(@PathVariable("courseKey") String courseKey, @RequestBody Course course) {
         Course oldcourse = courseService.getCourseByCourseKey(courseKey)
             .orElseThrow(() -> new ResourceNotFoundException("Not found course"));
@@ -121,7 +121,7 @@ public class CourseController {
         // Save updated course
         return courseService.saveCourse(oldcourse);
     }
-    @PostMapping("/{id}/addsubtopic")
+    @PostMapping("/courseid/{id}/subtopic/add")
     public Subtopic addSubtopicToCourse(@PathVariable ObjectId id, @RequestBody Subtopic subtopic) {
         return subtopicService.saveSubtopic(subtopic, id);
     }

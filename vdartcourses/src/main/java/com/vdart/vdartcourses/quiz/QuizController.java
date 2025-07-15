@@ -43,44 +43,41 @@ public class QuizController {
         return quizService.getAllQuizzes();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/quizid/{id}")
     public Quiz getQuizById(@PathVariable ObjectId id) {
         return quizService.getQuizById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + id));
     }
 
-    @PostMapping("/course/{courseId}/")
+    @PostMapping("/courseid/{courseId}/")
     public Quiz saveQuiz(@RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/quizid/{id}/delete")
     public ResponseEntity<String> deleteQuizById(@PathVariable ObjectId id) {
         quizService.deleteQuizById(id);
         return ResponseEntity.ok("Quiz deleted successfully");
     }
-    @PostMapping("/{quizid}/question/add")
+    @PostMapping("/quizid/{quizid}/question/add")
     public Question addQuestionToQuiz(@PathVariable ObjectId quizid, @RequestBody Question question) {
         return quizService.addQuestionToQuiz(quizid, question);
     }
     
     // Attend Quiz
-    @GetMapping("/{courseId}/quiz/attend")
+    @GetMapping("/courseid/{courseId}/questions/all")
     public List<Question> attendQuiz(@PathVariable ObjectId courseId) {
         return quizService.attendQuiz(courseId);
     }
 
-    // @PutMapping("/{quiz}/update")
-    // public Quiz updateQuiz(@PathVariable ObjectId quiz, @RequestBody Quiz updatedQuiz) {
-    //     return quizService.updateQuiz(quiz, updatedQuiz);
+    
+    // @PutMapping("/updateAll")
+    // public List<Quiz> updateAllQuizzes() {
+    //     List<Course> courses = courseService.getAllCourses();
+    //     for (Course course : courses) {
+    //         if(quizService.getQuizzesByCourseId(new ObjectId(course.getId())).isEmpty()) {
+    //             quizService.saveQuizForCourse(course.getId());
+    //         }
+    //     }
+    //     return quizService.getAllQuizzes();
     // }
-    @PutMapping("/updateall")
-    public List<Quiz> UpdateAllQuizzes() {
-        List<Course> courses = courseService.getAllCourses();
-        for (Course course : courses) {
-            if(quizService.getQuizzesByCourseId(new ObjectId(course.getId())).isEmpty()) {
-                quizService.saveQuizForCourse(course.getId());
-            }
-        }
-        return quizService.getAllQuizzes();
-    }
 }

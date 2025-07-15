@@ -22,7 +22,7 @@ import com.vdart.vdartcourses.ResourceNotFoundException;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
     
     @Autowired
@@ -60,28 +60,28 @@ public class UserController {
     // Update user
     // Delete user
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/userid/{id}")
     public User getUserById(@PathVariable ObjectId id) {
         return userService.getUserById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     
     }
-    @GetMapping("/users/search")
+    @GetMapping("/search")
     public List<User> getUserByName(@RequestParam String username) {
         return userService.getUserByName(username);
     }
     
 
-    @GetMapping("/users/all")
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
         
     }
-    @PutMapping("/users/update/{id}")
+    @PutMapping("/userid/{id}/update")
     public User saveUser(@PathVariable ObjectId id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
-    
-    @DeleteMapping("/users/delete/{id}")
+
+    @DeleteMapping("/userid/{id}/delete")
     public ResponseEntity<String> deleteUser(@PathVariable ObjectId id) {
         if (!userService.getUserById(id).isPresent()) {
             throw new ResourceNotFoundException("User not found with id: " + id);
