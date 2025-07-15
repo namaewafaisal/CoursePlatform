@@ -1,7 +1,6 @@
 package com.vdart.vdartcourses.quiz;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +9,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.course.Course;
+import com.vdart.vdartcourses.course.CourseService;
 import com.vdart.vdartcourses.question.Question;
+
 
 
 
@@ -27,6 +30,8 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
+    @Autowired
+    private CourseService courseService;
     // Get all quizzes
     // Get quiz by id
     // Add a new quiz
@@ -68,4 +73,14 @@ public class QuizController {
     // public Quiz updateQuiz(@PathVariable ObjectId quiz, @RequestBody Quiz updatedQuiz) {
     //     return quizService.updateQuiz(quiz, updatedQuiz);
     // }
+    @PutMapping("/updateall")
+    public List<Quiz> UpdateAllQuizzes() {
+        List<Course> courses = courseService.getAllCourses();
+        for (Course course : courses) {
+            if(quizService.getQuizzesByCourseId(new ObjectId(course.getId())).isEmpty()) {
+                quizService.saveQuizForCourse(course.getId());
+            }
+        }
+        return quizService.getAllQuizzes();
+    }
 }

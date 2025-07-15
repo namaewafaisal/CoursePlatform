@@ -13,11 +13,13 @@ public class QuestionService {
     private QuestionRepo questionRepo;
 
     public Question saveQuestion(Question question) {
-        
         return questionRepo.save(question);
 
     }
-    public List<Question> getQuestionsByQuizId(String quizId) {
+    public List<Question> getQuestionsByQuizId(ObjectId quizId) {
         return questionRepo.findByQuizId(quizId);
+    }
+    public List<Question> getAllQuestions() {
+        return questionRepo.findAll();
     }
 }

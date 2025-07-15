@@ -27,6 +27,12 @@ public class Quiz {
     public String getId() {
         return id != null ? id.toHexString() : null;
     }
+    public String getCourseId() {
+        return courseId != null ? courseId.toHexString() : null;
+    }   
 
-    
+    public String getSubtopicId() {
+        return subtopicId != null ? subtopicId.toHexString() : null;
+    }
+
 }

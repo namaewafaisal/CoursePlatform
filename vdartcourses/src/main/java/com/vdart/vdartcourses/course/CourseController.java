@@ -16,21 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.quiz.QuizService;
 import com.vdart.vdartcourses.subtopic.Subtopic;
 import com.vdart.vdartcourses.subtopic.SubtopicService;
-
-
-
 
 
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
 
+
     @Autowired
     private CourseService courseService;
     @Autowired
     private SubtopicService subtopicService;
+
+    @Autowired
+    private QuizService quizService;
 
     // Get all courses
     // Get course by id
@@ -52,7 +54,15 @@ public class CourseController {
 
     @PostMapping("/add")
     public Course saveCourse(@RequestBody Course course) {
-        return courseService.saveCourse(course);
+        if (course.getCourseKey() == null || course.getCourseKey().isEmpty()) {
+            throw new IllegalArgumentException("Course key cannot be null or empty");
+        }
+        if (course.getTitle() == null || course.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Course title cannot be null or empty");
+        }
+        courseService.saveCourse(course);
+        quizService.saveQuizForCourse(course.getId());
+        return course;
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCourseById(@PathVariable ObjectId id) {
@@ -115,5 +125,7 @@ public class CourseController {
     public Subtopic addSubtopicToCourse(@PathVariable ObjectId id, @RequestBody Subtopic subtopic) {
         return subtopicService.saveSubtopic(subtopic, id);
     }
+
+    
 
 }

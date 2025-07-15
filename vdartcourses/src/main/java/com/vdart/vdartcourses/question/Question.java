@@ -34,8 +34,6 @@ public class Question {
     public String getQuizId() {
         return quizId != null ? quizId.toHexString() : null;
     }
-    public void setQuizId(ObjectId quizId) {
-        this.quizId = quizId;
-    }
+    
     
 }

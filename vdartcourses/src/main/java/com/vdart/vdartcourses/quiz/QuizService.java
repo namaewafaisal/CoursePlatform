@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.course.Course;
 import com.vdart.vdartcourses.course.CourseService;
 import com.vdart.vdartcourses.question.Question;
 import com.vdart.vdartcourses.question.QuestionService;
@@ -24,7 +25,9 @@ public class QuizService {
     @Autowired
     private QuestionService questionService;
 
-    public Quiz saveQuiz(Quiz quiz) {
+    public Quiz saveQuizForCourse(String courseId) {
+        Quiz quiz = new Quiz();
+        quiz.setCourseId(new ObjectId(courseId));
         return quizRepo.save(quiz);
     }
     public Optional<Quiz> getQuizById(ObjectId id) {
@@ -46,9 +49,15 @@ public class QuizService {
     public List<Question> attendQuiz(ObjectId courseId) {
         Quiz quiz = quizRepo.findByCourseId(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found for course id: " + courseId));
-        return questionService.getQuestionsByQuizId(quiz.getId());
+        return questionService.getQuestionsByQuizId(new ObjectId(quiz.getId()));
 
     }
-   
+    public Quiz saveQuiz(Quiz quiz) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'saveQuiz'");
+    }
+    public Optional<Quiz> getQuizzesByCourseId(ObjectId courseId) {
+        return quizRepo.findByCourseId(courseId);
+    }
 
 }
