@@ -40,4 +40,7 @@ public class UserService {
         if(user.getRole() != null) existingUser.setRole(user.getRole());
         return userRepo.save(existingUser);
     }
+    public Optional<User> findByUsername(String username) {
+        return userRepo.findByUsername(username);
+    }
 }
