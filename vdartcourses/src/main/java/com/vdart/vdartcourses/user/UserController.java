@@ -20,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vdart.vdartcourses.ResourceNotFoundException;
-import com.vdart.vdartcourses.Role;
+import com.vdart.vdartcourses.service.CurrentUserService;
+import com.vdart.vdartcourses.service.ResourceNotFoundException;
+import com.vdart.vdartcourses.service.Role;
 
 
 
@@ -33,6 +34,8 @@ public class UserController {
     private UserService userService;
     @Autowired 
     private PasswordEncoder passwordEncoder;
+    @Autowired 
+    private CurrentUserService currentUserService;
 
     // For Typical Users
     // Sign up
@@ -90,12 +93,8 @@ public class UserController {
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     public User myProfile() {
-    // Get the username of the currently authenticated user
-     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     
-    // Directly get the username
-    String username = authentication.getName();
-    // Use the username to fetch the user details from your service layer
+    String username = currentUserService.getUsername();
     User user = userService.findByUsername(username)
             .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
     System.out.println("User: " + user);

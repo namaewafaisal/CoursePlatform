@@ -8,8 +8,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vdart.vdartcourses.ResourceNotFoundException;
-import com.vdart.vdartcourses.Role;
+import com.vdart.vdartcourses.service.ResourceNotFoundException;
+import com.vdart.vdartcourses.service.Role;
 
 @Service
 public class UserService {

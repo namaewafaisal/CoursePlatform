@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vdart.vdartcourses.ResourceNotFoundException;
 import com.vdart.vdartcourses.course.Course;
 import com.vdart.vdartcourses.course.CourseService;
 import com.vdart.vdartcourses.question.Question;
+import com.vdart.vdartcourses.service.ResourceNotFoundException;
 
 
 

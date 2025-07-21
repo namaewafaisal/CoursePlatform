@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses.security;
+package com.vdart.vdartcourses.service;
 
 import java.util.Collections;
 import java.util.stream.Collectors;

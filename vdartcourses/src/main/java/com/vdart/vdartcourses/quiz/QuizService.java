@@ -7,11 +7,11 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vdart.vdartcourses.ResourceNotFoundException;
 import com.vdart.vdartcourses.course.Course;
 import com.vdart.vdartcourses.course.CourseService;
 import com.vdart.vdartcourses.question.Question;
 import com.vdart.vdartcourses.question.QuestionService;
+import com.vdart.vdartcourses.service.ResourceNotFoundException;
 
 @Service
 public class QuizService {

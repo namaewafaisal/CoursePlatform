@@ -7,7 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.service.ResourceNotFoundException;
 import com.vdart.vdartcourses.subtopic.Subtopic;
 import com.vdart.vdartcourses.subtopic.SubtopicRepo;
 

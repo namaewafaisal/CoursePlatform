@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.vdart.vdartcourses.Role;
+import com.vdart.vdartcourses.service.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

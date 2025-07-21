@@ -26,9 +26,7 @@ public class EnrollmentController {
     @GetMapping("/mine")
     @PreAuthorize("isAuthenticated()")
     public List<Enrollment> getUserCourses() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        return enrollmentService.getUserCourses(username);
+        return enrollmentService.getUserCourses();
     }
 
     @PostMapping("/enrollment/add")

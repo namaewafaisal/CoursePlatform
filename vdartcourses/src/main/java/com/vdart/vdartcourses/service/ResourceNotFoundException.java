@@ -1,4 +1,4 @@
-package com.vdart.vdartcourses;
+package com.vdart.vdartcourses.service;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

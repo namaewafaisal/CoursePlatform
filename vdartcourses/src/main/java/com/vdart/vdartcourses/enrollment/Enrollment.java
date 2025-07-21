@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Enrollment {
 
     private ObjectId courseId;
-    private ObjectId userId;
+    private String username;
     @Id
     private ObjectId id; // Unique identifier for the enrollment
 
