@@ -5,6 +5,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,17 +23,20 @@ public class EnrollmentController {
     @Autowired
     private EnrollmentService enrollmentService;
 
-    @GetMapping("/userid/{userId}/course/all")
+    @GetMapping("/mine")
     @PreAuthorize("isAuthenticated()")
-    public List<Enrollment> getUserCourses(@PathVariable ObjectId userId) {
-        return enrollmentService.getUserCourses(userId);
+    public List<Enrollment> getUserCourses() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return enrollmentService.getUserCourses(username);
     }
 
-    @PostMapping("/userid/{userId}/courseid/{courseId}/enrollment/add")
+    @PostMapping("/enrollment/add")
     @PreAuthorize("isAuthenticated()")
-    public String enrollUserInCourse(@PathVariable ObjectId userId, @PathVariable ObjectId courseId, @RequestBody Enrollment enrollment) {
-        enrollmentService.enrollUserInCourse(userId, courseId, enrollment);
-        return "User enrolled successfully in course with id: " + courseId;
+    public void enrollUserInCourse(@RequestBody Enrollment enrollment) {
+
+        enrollmentService.enrollUserInCourse(enrollment);
+        
     }
     
     

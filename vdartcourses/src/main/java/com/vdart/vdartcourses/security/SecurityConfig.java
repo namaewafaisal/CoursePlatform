@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig  {
 
     @Autowired
@@ -61,56 +63,9 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz -> authz
-        .requestMatchers(
-            "/api/users/userid/{id}/update",
-            "/api/courses/coursekey/{courseKey}/update",
-            "/api/certificates/certificateid/{id}/update",
-            "/api/users/all",
-            "/api/questions/all",
-            "/api/certificates/all",
-            "/api/subtopics/all",
-            "/api/users/userid/{id}/delete",
-            "/api/subtopics/subtopicid/{id}/delete",
-            "/api/quizzes/quizid/{id}/delete",
-            "/api/courses/courseid/{id}/delete",
-            "/api/subtopics/courseid/{courseId}/add",
-            "/api/quizzes/quizid/{quizid}/question/add",
-            "/api/questions/add",
-            "/api/enrollments/userid/{userId}/courseid/{courseId}/enrollment/add",
-            "/api/courses/courseid/{id}/subtopic/add",
-            "/api/courses/add",
-            "/api/certificates/post"
-        ).hasRole("ADMIN")
-
-        .requestMatchers(
-            "/api/certificates/{courseId}",
-            "/api/certificates/id/{id}"
-        ).hasAnyRole("ADMIN", "SUBADMIN", "FACULTY") //Only for ADMIN, SUBADMIN role
-
-        .requestMatchers(
-            "/api/certificates/{courseId}",
-            "/api/certificates/id/{id}",
-            ""
-            ).hasAnyRole("ADMIN","SUBADMIN","FACULTY")
-        .requestMatchers(
-            "/api/courses/all",
-            "/api/courses/courseid/{courseId}/subtopic/all",
-            "/api/courses/coursekey/{courseKey}",
-            "/api/courses/courseid/{id}",
-            
-            "/api/courses/search/coursetitlekeyword/{keyword}",            
-            "/auth/login",
-            "/api/users/auth/signup/post",
-            "/swagger-ui.html",
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/swagger-resources/**",
-            "/webjars/**"
-              ).permitAll() //For Anyone without login
-        
-        .anyRequest().authenticated()
-        )
-        .csrf( csrf -> csrf.disable())
+        .requestMatchers("/auth/login", "/users/auth/register", "/courses/courseid/*/subtopic/all").permitAll()
+        .anyRequest().authenticated())
+        .csrf(csrf -> csrf.disable())
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) ;
         

@@ -7,6 +7,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +58,7 @@ public class UserController {
     }
     
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN','FACULTY','USER')")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
         
@@ -86,10 +88,22 @@ public class UserController {
     
 
     @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
     public User myProfile() {
-        
-    }
+    // Get the username of the currently authenticated user
+     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    
+    // Directly get the username
+    String username = authentication.getName();
+    // Use the username to fetch the user details from your service layer
+    User user = userService.findByUsername(username)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+    System.out.println("User: " + user);
+    return user;
+}
+
+}
+
     
 
     
-}

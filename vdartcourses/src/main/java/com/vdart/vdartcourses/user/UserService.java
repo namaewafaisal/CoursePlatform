@@ -45,6 +45,11 @@ public class UserService {
     public Optional<User> findByUsername(String username) {
         return userRepo.findByUsername(username);
     }
+    public String findIdByUsername(String username) {
+        Optional<User> user = userRepo.findByUsername(username);
+        return user.map(User::getId).orElseThrow(() -> 
+            new ResourceNotFoundException("User not found with username: " + username));
+    }
     public User promoteUser(ObjectId id, Set<Role> roles) {
         User existingUser = userRepo.findById(id).orElseThrow(() -> 
             new ResourceNotFoundException("User not found with id: " + id));
