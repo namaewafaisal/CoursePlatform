@@ -1,6 +1,7 @@
 package com.vdart.vdartcourses.security;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,11 +23,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority("USER_ROLE"))); // Add authorities if needed
+                user.getRoles().stream()
+                    .map( role -> new SimpleGrantedAuthority("ROLE_"+role))
+                    .collect(Collectors.toSet())
+        );
     }
 
 

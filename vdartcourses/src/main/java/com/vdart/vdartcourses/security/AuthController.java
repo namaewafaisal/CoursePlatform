@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ public class AuthController {
     private JwtUtil jwtUtil; // Assuming you have a JwtUtil class for JWT operations
 
     @PostMapping("/login")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<Map<String,String>> login(@RequestBody User user) {
         try{
             Authentication authentication = authenticationManager.authenticate(

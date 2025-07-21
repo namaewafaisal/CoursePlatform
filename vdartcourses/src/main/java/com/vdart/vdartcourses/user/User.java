@@ -1,12 +1,14 @@
 package com.vdart.vdartcourses.user;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.vdart.vdartcourses.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,10 +30,15 @@ public class User {
     @Indexed(unique = true)
     private String email;
     private String password;
-    private String role; // e.g., "student", "instructor", "admin"
+    
+    private Set<Role> roles;
     private String domain;
    
     public String getId() {
         return id != null ? id.toHexString() : null;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }   
 }

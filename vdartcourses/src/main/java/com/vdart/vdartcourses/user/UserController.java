@@ -1,10 +1,12 @@
 package com.vdart.vdartcourses.user;
 
 import java.util.List;
+import java.util.Set;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.Role;
 
 
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
     
     @Autowired
@@ -33,56 +36,46 @@ public class UserController {
     // Sign up
     // login
 
-    @PostMapping("/auth/signup")
-    public String postMethodName(@RequestParam String username, @RequestParam String email, @RequestParam String password, @RequestParam String domain) {
-
-        return "Received : " + username + ", " + email  + ", " + domain;
-
-    }
-    
-    @PostMapping("/auth/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        System.out.println("Login attempt with username: " + username + " and password: " + password);
-        // Here you would typically check the credentials against a database
-        // For now, we just return a success message
-        return "Login successful for user: " + username;
-    }
-
-    @PostMapping("/auth/signup/post")
-    public User postMethodName(@RequestBody User user) {
+    @PostMapping("/auth/register")
+    @PreAuthorize("permitAll()")
+    public User registerUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()) );
         return userService.saveUser(user);
     }
 
-    // For Admin Users
-    // Get all users
-    // Get user by id
-    // Get user by name
-    // Update user
-    // Delete user
-
     @GetMapping("/userid/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN')")
     public User getUserById(@PathVariable ObjectId id) {
         return userService.getUserById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-    
     }
+    
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN')")
     public List<User> getUserByName(@RequestParam String username) {
         return userService.getUserByName(username);
     }
     
-
     @GetMapping("/all")
+    @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN')")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
         
     }
+
+    @PutMapping("userid/{id}/setuserroles")
+    @PreAuthorize("hasRole('ADMIN')")
+    public User setRolesofUser(@PathVariable ObjectId id, @RequestParam Set<Role> role) {
+        return userService.promoteUser(id,role);
+    }
+
     @PutMapping("/userid/{id}/update")
-    public User saveUser(@PathVariable ObjectId id, @RequestBody User user) {
+    @PreAuthorize("hasAnyRole()")
+    public User updateUser(@PathVariable ObjectId id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/userid/{id}/delete")
+    @PreAuthorize("hasAnyRole()")
     public ResponseEntity<String> deleteUser(@PathVariable ObjectId id) {
         if (!userService.getUserById(id).isPresent()) {
             throw new ResourceNotFoundException("User not found with id: " + id);
@@ -90,6 +83,13 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted successfully");
     }
+    
+
+    @GetMapping("/me")
+    public User myProfile() {
+        
+    }
+    
 
     
 }

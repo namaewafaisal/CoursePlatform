@@ -2,12 +2,14 @@ package com.vdart.vdartcourses.user;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vdart.vdartcourses.ResourceNotFoundException;
+import com.vdart.vdartcourses.Role;
 
 @Service
 public class UserService {
@@ -37,10 +39,16 @@ public class UserService {
         if(user.getEmail() != null) existingUser.setEmail(user.getEmail());
         if(user.getPassword() != null) existingUser.setPassword(user.getPassword());
         if(user.getDomain() != null) existingUser.setDomain(user.getDomain());
-        if(user.getRole() != null) existingUser.setRole(user.getRole());
+        if(user.getRoles() != null) existingUser.setRoles(user.getRoles());
         return userRepo.save(existingUser);
     }
     public Optional<User> findByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+    public User promoteUser(ObjectId id, Set<Role> roles) {
+        User existingUser = userRepo.findById(id).orElseThrow(() -> 
+            new ResourceNotFoundException("User not found with id: " + id));
+        existingUser.setRoles(roles);
+        return existingUser;
     }
 }
