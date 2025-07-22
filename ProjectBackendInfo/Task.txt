@@ -1,8 +1,7 @@
 Tasks yet to be completed
 1. App adapting for Role of the user
-2. user login and signup
-3. user based frontend like dashboard, my courses etc
-4. user only access the domain
+2. user login and signup ^
+3. user based frontend like dashboard, my courses etc 
 5. Uploading a course thumbnail and video for subtopics
 6. Certificate templates
 7. cerificate generator formating the username in the Certificate

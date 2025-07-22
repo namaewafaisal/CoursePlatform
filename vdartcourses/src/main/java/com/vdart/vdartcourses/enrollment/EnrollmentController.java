@@ -36,7 +36,5 @@ public class EnrollmentController {
         enrollmentService.enrollUserInCourse(enrollment);
         
     }
-    
-    
-    
+      
 }
