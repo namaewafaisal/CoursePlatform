@@ -73,7 +73,7 @@ public class QuizController {
     
     // Attend Quiz
     @GetMapping("/courseid/{courseId}/questions/all")
-    @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN')")
+    @PreAuthorize("permitAll()")
     public List<Question> attendQuiz(@PathVariable ObjectId courseId) {
         return quizService.attendQuiz(courseId);
     }

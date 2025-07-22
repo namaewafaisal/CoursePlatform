@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -31,10 +33,16 @@ public class EnrollmentController {
 
     @PostMapping("/enrollment/add")
     @PreAuthorize("isAuthenticated()")
-    public void enrollUserInCourse(@RequestBody Enrollment enrollment) {
-
-        enrollmentService.enrollUserInCourse(enrollment);
+    public Enrollment enrollUserInCourse(@RequestBody Enrollment enrollment) {
+        return enrollmentService.enrollUserInCourse(enrollment);
         
     }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Enrollment> getAllEnrollments() {
+        return enrollmentService.getAllEnrollments();
+    }
+    
       
 }

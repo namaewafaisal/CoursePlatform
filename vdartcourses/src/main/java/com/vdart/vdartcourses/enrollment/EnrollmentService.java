@@ -26,9 +26,14 @@ public class EnrollmentService {
         return userEnrollments;
     }
 
-    public void enrollUserInCourse(Enrollment enrollment) {
+    public Enrollment enrollUserInCourse(Enrollment enrollment) {
         String username = currentUserService.getUsername();
         enrollment.setUsername(username);
-        enrollmentRepo.save(enrollment);
+        return enrollmentRepo.save(enrollment);
+    }
+
+    public List<Enrollment> getAllEnrollments() {
+        return enrollmentRepo.findAll();
     }
 }
+
