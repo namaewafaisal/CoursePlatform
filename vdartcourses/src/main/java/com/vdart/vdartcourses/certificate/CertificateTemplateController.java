@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +34,7 @@ public class CertificateTemplateController {
         // Logic to retrieve the certificate template by courseId
         return certificateTemplateService.getAllCertificateTemplates();
     }
-    @GetMapping("/{courseId}")
+    @GetMapping("courseid/{courseId}")
     @PreAuthorize("isAuthenticated()")
     public CertificateTemplate getCertificateTemplateByCourse(@PathVariable ObjectId courseId) {
         return certificateTemplateService.getCertificateTemplateByCourseId(courseId)
@@ -43,13 +46,13 @@ public class CertificateTemplateController {
     //     .orElseThrow(() -> new ResourceNotFoundException("Certificate not found with id: " + id));
     // }
 
-    @PostMapping("/post")
+    @PostMapping("/add")
     @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN','FACULTY')")
     public CertificateTemplate addCertificateTemplate(@RequestBody CertificateTemplate entity) {
         return certificateTemplateService.saveCertificateTemplate(entity);
     }
     
-    @PutMapping("update/{id}")
+    @PutMapping("courseid/{id}/update")
     @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN','FACULTY')")
     public CertificateTemplate updateCertificateTemplate(@PathVariable ObjectId id, @RequestBody CertificateTemplate certificateTemplate) {
         
@@ -62,4 +65,10 @@ public class CertificateTemplateController {
         return certificateData;
     }
 
+    @DeleteMapping("/courseid/{id}/delete")
+    public ResponseEntity<String> deleteCertificate(@PathVariable ObjectId id){
+        certificateTemplateService.deleteCertificateTemplateById(id);
+        return ResponseEntity.ok("Deleted successfully");
+
+}
 }
