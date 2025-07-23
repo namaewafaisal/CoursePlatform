@@ -5,17 +5,16 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PutMapping;
+
+import com.vdart.vdartcourses.course.Course;
 
 
 
@@ -30,11 +29,11 @@ public class EnrollmentController {
 
     @GetMapping("/mine")
     @PreAuthorize("isAuthenticated()")
-    public List<Enrollment> getUserCourses() {
+    public List<Course> getUserCourses() {
         return enrollmentService.getUserCourses();
     }
 
-    @PostMapping("/enrollment/add")
+    @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
     public Enrollment enrollUserInCourse(@RequestBody Enrollment enrollment) {
         return enrollmentService.enrollUserInCourse(enrollment);
@@ -59,6 +58,14 @@ public class EnrollmentController {
         
         return enrollmentService.updateEnrollment(id,enrollment);
     }
+
+    @DeleteMapping("/deleteall")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteAllEnrollments(){
+        enrollmentService.deleteAll();
+        return "Success";
+    }
+    
     
       
 }
