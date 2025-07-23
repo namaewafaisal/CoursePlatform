@@ -43,14 +43,6 @@ public class CourseService {
         return courseRepo.findByTitleContainingIgnoreCase(keyword);
     }
 
-    // Method to get subtopics of a course
-    public List<Subtopic> getSubtopicsByCourseId(String courseId) {
-        List<Subtopic> subtopics = subtopicRepo.findByCourseId(courseId);
-        if (subtopics.isEmpty()) {
-            throw new ResourceNotFoundException("No subtopics found for course id: " + courseId);
-        }
-        return subtopics;
-    }
 
     // Method to update a course
     public Optional<Course> updateCourse(ObjectId id, Course course) {

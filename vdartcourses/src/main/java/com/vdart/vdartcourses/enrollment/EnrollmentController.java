@@ -1,6 +1,7 @@
 package com.vdart.vdartcourses.enrollment;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ public class EnrollmentController {
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
     public Enrollment enrollUserInCourse(@RequestBody Enrollment enrollment) {
+        Optional<Enrollment> enrollment2 = enrollmentService.searchForEnrollment(enrollment);
+        if(enrollment2.isPresent()){
+            throw new RuntimeException("User already enrolled in the course");
+        }
         return enrollmentService.enrollUserInCourse(enrollment);
         
     }
@@ -59,12 +64,12 @@ public class EnrollmentController {
         return enrollmentService.updateEnrollment(id,enrollment);
     }
 
-    @DeleteMapping("/deleteall")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String deleteAllEnrollments(){
-        enrollmentService.deleteAll();
-        return "Success";
-    }
+    // @DeleteMapping("/deleteall")
+    // @PreAuthorize("hasRole('ADMIN')")
+    // public String deleteAllEnrollments(){
+    //     enrollmentService.deleteAll();
+    //     return "Success";
+    // }
     
     
       

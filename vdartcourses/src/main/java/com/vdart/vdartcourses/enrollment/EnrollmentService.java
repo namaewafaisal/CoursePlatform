@@ -1,7 +1,7 @@
 package com.vdart.vdartcourses.enrollment;
 
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
@@ -72,5 +72,10 @@ public class EnrollmentService {
 
     public void deleteAll() {
         enrollmentRepo.deleteAll();
+    }
+    public Optional<Enrollment> searchForEnrollment(Enrollment enrollment) {
+        String username = currentUserService.getUsername();
+        String courseId = enrollment.getCourseId();
+        return enrollmentRepo.findByUsernameAndCourseId(username, new ObjectId(courseId));
     }
 }

@@ -45,4 +45,5 @@ public class SubtopicController {
     public List<Subtopic> getAllSubtopics() {
         return subtopicService.getAllSubtopics();
     }
+    
 }

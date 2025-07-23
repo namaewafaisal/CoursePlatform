@@ -22,6 +22,7 @@ public class Subtopic {
     private String content; // text content
     private String videoUrl; // URL for video
     private String courseId; // ID of the course this subtopic belongs to
+    private int order; // Order of the subtopic within its course
 
     public String getId() {
         return id != null ? id.toHexString() : null;

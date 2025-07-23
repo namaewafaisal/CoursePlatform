@@ -102,20 +102,20 @@ public class CourseController {
     // Additional methods for updating courses, etc. can be added here
       // View a subtopic of a course
 
-    @GetMapping("/coursekey/{courseKey}/subtopic/{subtopic}")
-    @PreAuthorize("isAuthenticated")
-    public ResponseEntity<String> watchASubTopic(@PathVariable String courseKey, @PathVariable String subtopic) {
-    Course course = courseService.getCourseByCourseKey(courseKey)
-            .orElseThrow(() -> new ResourceNotFoundException("Course not found with key: " + courseKey));
-        List<Subtopic> subtopics = courseService.getSubtopicsByCourseId(course.getId());
-        for (Subtopic sub : subtopics) {
-            if (sub.getTitle().equalsIgnoreCase(subtopic)) {
-                String videoUrl = sub.getVideoUrl();
-                return ResponseEntity.ok(videoUrl);
-            }
-        }
-        return ResponseEntity.notFound().build();
-    }
+    // @GetMapping("/coursekey/{courseKey}/subtopic/{subtopic}")
+    // @PreAuthorize("isAuthenticated")
+    // public ResponseEntity<String> watchASubTopic(@PathVariable String courseKey, @PathVariable String subtopic) {
+    // Course course = courseService.getCourseByCourseKey(courseKey)
+    //         .orElseThrow(() -> new ResourceNotFoundException("Course not found with key: " + courseKey));
+    //     List<Subtopic> subtopics = subtopicService.getSubtopicsByCourseId(course.getId());
+    //     for (Subtopic sub : subtopics) {
+    //         if (sub.getTitle().equalsIgnoreCase(subtopic)) {
+    //             String videoUrl = sub.getVideoUrl();
+    //             return ResponseEntity.ok(videoUrl);
+    //         }
+    //     }
+    //     return ResponseEntity.notFound().build();
+    // }
 
     @PutMapping("/coursekey/{courseKey}/update")
     @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN','FACULTY')")

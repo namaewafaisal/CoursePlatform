@@ -18,7 +18,7 @@ public class SubtopicService {
         return subtopicRepo.save(subtopic);
     }
     public List<Subtopic> getSubtopicsByCourseId(String courseId) {
-        return subtopicRepo.findByCourseId(courseId);
+        return subtopicRepo.findByCourseIdOrderByOrderAsc(courseId);
     }
     public List<Subtopic> getAllSubtopics() {
         return subtopicRepo.findAll();
