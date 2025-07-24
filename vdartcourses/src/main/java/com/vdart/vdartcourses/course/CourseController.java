@@ -1,7 +1,11 @@
 package com.vdart.vdartcourses.course;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.vdart.vdartcourses.quiz.QuizService;
 import com.vdart.vdartcourses.service.ResourceNotFoundException;
@@ -139,6 +144,20 @@ public class CourseController {
         return subtopicService.saveSubtopic(subtopic, id);
     }
 
+   @PostMapping("/upload/thumbnail")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<String> uploadThumbnail(@RequestParam("file") MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path filePath = Path.of("./CoursePlatform/vdartcourses/media/thumbnail", fileName);
+        
+        // Create directories if not already present
+        Files.createDirectories(filePath.getParent());
+        Files.write(filePath, file.getBytes());
+
+        // Return the URL where the thumbnail can be accessed
+        String thumbnailUrl = "/thumbnails/" + fileName;
+        return ResponseEntity.ok(thumbnailUrl);
+    }
     
 
 }
