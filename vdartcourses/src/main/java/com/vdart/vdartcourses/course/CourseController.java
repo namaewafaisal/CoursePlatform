@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.quiz.QuizService;
@@ -80,10 +81,10 @@ public class CourseController {
         return ResponseEntity.ok("Course deleted successfully");
     }
     
-    @GetMapping("/search/coursetitlekeyword/{keyword}")
+    @GetMapping("/search")
     @PreAuthorize("permitAll()")
 
-    public List<Course> searchCourses(@PathVariable String keyword) {
+    public List<Course> searchCourses(@RequestParam String keyword) {
         return courseService.searchCourses(keyword);
     }
 
