@@ -52,18 +52,19 @@ public class SubtopicController {
         return subtopicService.getAllSubtopics();
     }
 
-      @PostMapping("/upload/video")
+    // Use this endpoint to upload a video and return its URL
+    @PostMapping("/upload/video")
     @PreAuthorize("permitAll()")
     public ResponseEntity<String> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path filePath = Path.of("videos", fileName);
+        Path filePath = Path.of("media/videos/", fileName);
         
         // Create directories if not already present
         Files.createDirectories(filePath.getParent());
         Files.write(filePath, file.getBytes());
 
         // Return the URL where the video can be accessed
-        String videoUrl = "/api/videos/" + fileName;
+        String videoUrl = "http://localhost:8080/media/videos/" + fileName;
         return ResponseEntity.ok(videoUrl);
     }
 

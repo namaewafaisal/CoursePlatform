@@ -144,20 +144,27 @@ public class CourseController {
         return subtopicService.saveSubtopic(subtopic, id);
     }
 
-   @PostMapping("/upload/thumbnail")
+    // Use this endpoint to upload a thumbnail and return its URL
+    @PostMapping("/upload/thumbnail")
     @PreAuthorize("permitAll()")
     public ResponseEntity<String> uploadThumbnail(@RequestParam("file") MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path filePath = Path.of("./CoursePlatform/vdartcourses/media/thumbnail", fileName);
+        Path filePath = Path.of("media/thumbnails", fileName);
         
         // Create directories if not already present
         Files.createDirectories(filePath.getParent());
         Files.write(filePath, file.getBytes());
 
         // Return the URL where the thumbnail can be accessed
-        String thumbnailUrl = "/thumbnails/" + fileName;
+        String thumbnailUrl = "http://localhost:8080/media/thumbnails/" + fileName;
         return ResponseEntity.ok(thumbnailUrl);
     }
+    @GetMapping("/test")
+    @PreAuthorize("permitAll()")
+    public String getMethodName() {
+        return new String("Running from: " + System.getProperty("user.dir"));
+    }
+    
     
 
 }
