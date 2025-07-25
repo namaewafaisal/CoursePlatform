@@ -1,6 +1,8 @@
 package com.vdart.vdartcourses.course;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -148,7 +150,7 @@ public class CourseController {
     @PostMapping("/upload/thumbnail")
     @PreAuthorize("permitAll()")
     public ResponseEntity<String> uploadThumbnail(@RequestParam("file") MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String fileName = UUID.randomUUID() + "_" + URLEncoder.encode(file.getOriginalFilename(),StandardCharsets.UTF_8);
         Path filePath = Path.of("media/thumbnails", fileName);
         
         // Create directories if not already present
