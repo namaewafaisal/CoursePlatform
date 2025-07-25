@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @DeleteMapping("/userid/{id}/delete")
-    @PreAuthorize("hasAnyRole()")
+    @PreAuthorize("hasAnyRole('ADMIN','SUBADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable ObjectId id) {
         if (!userService.getUserById(id).isPresent()) {
             throw new ResourceNotFoundException("User not found with id: " + id);
