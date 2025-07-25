@@ -1,5 +1,6 @@
 package com.vdart.vdartcourses.enrollment;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,5 @@ public interface EnrollmentRepo extends MongoRepository<Enrollment, ObjectId>{
     List<Enrollment> findByUsername(String username);
     Optional<Enrollment> findByUsernameAndCourseId(String username , ObjectId courseId);
     Optional<Course> deleteByUsernameAndCourseId(String username, ObjectId objectId);
+    List<Enrollment> findByUsernameAndIsCompleted(String username, boolean b);
 }

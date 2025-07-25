@@ -150,7 +150,7 @@ public class CourseController {
     @PostMapping("/upload/thumbnail")
     @PreAuthorize("permitAll()")
     public ResponseEntity<String> uploadThumbnail(@RequestParam("file") MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID() + "_" + URLEncoder.encode(file.getOriginalFilename(),StandardCharsets.UTF_8);
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path filePath = Path.of("media/thumbnails", fileName);
         
         // Create directories if not already present

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdart.vdartcourses.course.Course;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -63,12 +65,18 @@ public class EnrollmentController {
         return enrollmentService.updateEnrollment(id,enrollment);
     }
 
-    // @DeleteMapping("/deleteall")
-    // @PreAuthorize("hasRole('ADMIN')")
-    // public String deleteAllEnrollments(){
-    //     enrollmentService.deleteAll();
-    //     return "Success";
-    // }
+    @DeleteMapping("/deleteall")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteAllEnrollments(){
+        enrollmentService.deleteAll();
+        return "Success";
+    }
+    @GetMapping("/mycompleted")
+    @PreAuthorize("permitAll()")
+    public List<Optional<Course>> getCompletedCourses() {
+        return enrollmentService.getCompletedCourses();
+    }
+    
     
     
       

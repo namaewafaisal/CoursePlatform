@@ -1,5 +1,6 @@
 package com.vdart.vdartcourses.enrollment;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,4 +93,19 @@ public class EnrollmentService {
         String courseId = enrollment.getCourseId();
         return enrollmentRepo.findByUsernameAndCourseId(username, new ObjectId(courseId));
     }
+
+public List<Optional<Course>> getCompletedCourses() {
+    String username = currentUserService.getUsername();
+    List<Enrollment> enrollments = enrollmentRepo.findByUsernameAndIsCompleted(username, true);
+    
+    if (enrollments != null) {
+        return enrollments.stream()
+                          .map(enroll -> courseService.getCourseById(new ObjectId(enroll.getCourseId())))
+                          .collect(Collectors.toList());
+    } else {
+        return Collections.emptyList(); // Return an empty list if no enrollments found
+    }
 }
+
+}
+
