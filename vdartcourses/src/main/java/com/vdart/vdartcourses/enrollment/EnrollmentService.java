@@ -45,13 +45,14 @@ public class EnrollmentService {
         return enrollmentRepo.findAll();
     }
 
-    public void deleteEnrollment(ObjectId id) {
-        enrollmentRepo.deleteById(id);
+    public void deleteEnrollment(String id) {
+        String username = currentUserService.getUsername();
+        enrollmentRepo.deleteByUsernameAndCourseId(username, new ObjectId(id)).orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with id: " + id));
     }
 
-    public Enrollment updateEnrollment(ObjectId id, Enrollment enrollment) {
+    public Enrollment updateEnrollment(String id, Enrollment enrollment) {
         String username = currentUserService.getUsername();
-        Enrollment enrollment2 = enrollmentRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with id: " + id));
+        Enrollment enrollment2 = enrollmentRepo.findByUsernameAndCourseId(username, new ObjectId(id)).orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with id: " + id));
         if(!(enrollment2.getUsername().equals(username))) {
             throw new ResourceNotFoundException("You are not authorized to update this enrollment.");       
         }
@@ -67,6 +68,19 @@ public class EnrollmentService {
         if(enrollment.getProgress()!= null) {
             enrollment2.setProgress(enrollment.getProgress());
         }
+        if(enrollment.getCompletionDate()!= null) {
+            enrollment2.setCompletionDate(enrollment.getCompletionDate());
+        }
+        if(enrollment.getIsCompleted() == true) {
+            enrollment2.setIsCompleted(true);
+        }
+        if(enrollment.getCertificateUrl()!= null) {
+            enrollment2.setCertificateUrl(enrollment.getCertificateUrl());
+        }
+        if (enrollment.getScore() > 0) {
+            enrollment2.setScore(enrollment.getScore());
+        }
+
         return enrollmentRepo.save(enrollment2);
     }
 

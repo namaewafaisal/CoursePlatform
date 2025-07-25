@@ -51,16 +51,15 @@ public class EnrollmentController {
         return enrollmentService.getAllEnrollments();
     }
 
-    @DeleteMapping("/enrollmentid/{id}/delete")
+    @DeleteMapping("/courseid/{id}/delete")
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteEnrollment(@PathVariable ObjectId id) {
+    public void deleteEnrollment(@PathVariable String id) {
         enrollmentService.deleteEnrollment(id);
     }
 
-    @PutMapping("/enrollmentid/{id}/update")
+    @PutMapping("/courseid/{id}/update")
     @PreAuthorize("isAuthenticated()")
-    public Enrollment updateEnrollment(@PathVariable ObjectId id, @RequestBody Enrollment enrollment) {
-        
+    public Enrollment updateEnrollment(@PathVariable String id, @RequestBody Enrollment enrollment) {
         return enrollmentService.updateEnrollment(id,enrollment);
     }
 

@@ -32,4 +32,10 @@ public class Enrollment {
     public String getCourseId(){
         return courseId != null ? courseId.toHexString() : null;
     }
+    public boolean getIsCompleted() {
+        return isCompleted;
+    }
+    public void setIsCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
 }
